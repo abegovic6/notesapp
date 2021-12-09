@@ -63,7 +63,7 @@ public class NoteServiceImp implements NoteService{
 
     @Override
     public NoteDto deleteById(Integer id) {
-        NoteEntity entity = dtoTransformer.toEntity(getById(id), new NoteEntity());
+        NoteEntity entity = repository.findBy(id);
         if(entity != null) {
             try {
                 repository.remove(entity); // remove will throw an exception if it can't delete the object
@@ -77,7 +77,24 @@ public class NoteServiceImp implements NoteService{
 
     @Override
     public NoteDto updateById(Integer id, NoteDto dto) {
-        dto.setId(id);
-        return create(dto);
+        NoteEntity entity = repository.findBy(id);
+        entity.setTitle(dto.getTitle());
+        entity.setDescription(dto.getDescription());
+        entity.setColor(dto.getColor());
+
+        final GroupsEntity groupsEntity = groupsRepository.findBy(entity.getId());
+        entity.setGroup(groupsEntity);
+
+        final Set<LabelEntity> labelEntities = new HashSet<>();
+        for(var l : dto.getLabelDtoList())
+            labelEntities.add(labelRepository.findBy(l.getId()));
+        entity.setLabels(labelEntities);
+
+        try {
+            repository.persist(entity);
+            return dtoTransformer.toDto(entity);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

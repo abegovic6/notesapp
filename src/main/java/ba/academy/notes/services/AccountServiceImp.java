@@ -45,7 +45,7 @@ public class AccountServiceImp implements AccountService{
 
     @Override
     public AccountDto deleteById(Integer id) {
-        AccountEntity entity = dtoTransformer.toEntity(getById(id), new AccountEntity());
+        AccountEntity entity = repository.findBy(id);
         if(entity != null) {
             try {
                 repository.remove(entity); // remove will throw an exception if it can't delete the object
@@ -59,7 +59,7 @@ public class AccountServiceImp implements AccountService{
 
     @Override
     public AccountDto updateById(Integer id, AccountDto dto) {
-        AccountEntity entity = dtoTransformer.toEntity(getById(id), new AccountEntity());
+        AccountEntity entity = repository.findBy(id);
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());

@@ -51,7 +51,7 @@ public class GroupsServiceImp implements GroupsService {
 
     @Override
     public GroupsDto deleteById(Integer id) {
-        GroupsEntity entity = dtoTransformer.toEntity(getById(id), new GroupsEntity());
+        GroupsEntity entity = repository.findBy(id);
         if(entity != null) {
             try {
                 repository.remove(entity); // remove will throw an exception if it can't delete the object
@@ -65,10 +65,14 @@ public class GroupsServiceImp implements GroupsService {
 
     @Override
     public GroupsDto updateById(Integer id, GroupsDto dto) {
-        GroupsEntity entity = dtoTransformer.toEntity(getById(id), new GroupsEntity());
+        GroupsEntity entity = repository.findBy(id);
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setColor(dto.getColor());
+
+        final AccountEntity accountEntity = accountRepository.findBy(entity.getAccount().getId());
+        entity.setAccount(accountEntity);
+
         try {
             repository.persist(entity);
             return dtoTransformer.toDto(entity);
