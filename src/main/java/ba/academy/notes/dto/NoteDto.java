@@ -6,6 +6,7 @@ public class NoteDto {
     private Integer id;
     private String title;
     private String description;
+    private Color color;
     private List<LabelDto> labelDtoList;
     private GroupsDto groupsDto;
 
@@ -31,6 +32,14 @@ public class NoteDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public List<LabelDto> getLabelDtoList() {
