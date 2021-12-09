@@ -1,18 +1,20 @@
 package ba.academy.notes;
 
+import ba.academy.notes.dto.GroupsDto;
 import ba.academy.notes.dto.LabelDto;
-import ba.academy.notes.dto.NoteDto;
-import ba.academy.notes.services.NoteService;
+import ba.academy.notes.services.GroupsService;
+import ba.academy.notes.services.LabelService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-@Path("/note")
-public class NoteResource {
+
+@Path("/groups")
+public class GroupsResource {
 
     @Inject
-    NoteService service;
+    GroupsService service;
 
     @GET
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -40,7 +42,7 @@ public class NoteResource {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(value = MediaType.APPLICATION_JSON)
-    public Response create(NoteDto dtoAtribute, @Context UriInfo uriInfo)
+    public Response create(GroupsDto dtoAtribute, @Context UriInfo uriInfo)
     {
         var dto = service.create(dtoAtribute);
         if(dto != null) {
@@ -67,11 +69,10 @@ public class NoteResource {
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(value = MediaType.APPLICATION_JSON)
-    public Response updateDiary(NoteDto dtoAtribute, @PathParam("id") int id, @Context UriInfo uriInfo) {
+    public Response updateDiary(GroupsDto dtoAtribute, @PathParam("id") int id, @Context UriInfo uriInfo) {
         var updateDiaryDto = service.updateById(id, dtoAtribute);
         if(updateDiaryDto != null) {
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-            uriBuilder.path(Integer.toString(updateDiaryDto.getId()));
             return Response.created(uriBuilder.build()).entity(updateDiaryDto).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();

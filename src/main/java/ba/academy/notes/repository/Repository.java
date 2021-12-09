@@ -75,4 +75,8 @@ public abstract class Repository <E, PK extends Serializable> implements Panache
         return entityManager()
                 .createQuery(query).getResultList();
     }
+
+    public void merge(E entity) {
+        entityManager().merge(entity);
+    }
 }

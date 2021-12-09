@@ -4,6 +4,8 @@ import ba.academy.notes.dto.GroupsDto;
 import ba.academy.notes.repository.entities.GroupsEntity;
 
 public class GroupsDtoTransformer implements DtoTransformer<GroupsEntity, GroupsDto>{
+    private final AccountDtoTransformer accountDtoTransformer = new AccountDtoTransformer();
+
     @Override
     public GroupsDto toDto(GroupsEntity entity) {
         GroupsDto dto = new GroupsDto();
@@ -11,6 +13,7 @@ public class GroupsDtoTransformer implements DtoTransformer<GroupsEntity, Groups
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
         dto.setColor(entity.getColor());
+        dto.setAccountDto(accountDtoTransformer.toDto(entity.getAccount()));
         return dto;
     }
 

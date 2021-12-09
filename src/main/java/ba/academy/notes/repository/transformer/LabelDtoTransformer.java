@@ -6,6 +6,8 @@ import ba.academy.notes.repository.entities.GroupsEntity;
 import ba.academy.notes.repository.entities.LabelEntity;
 
 public class LabelDtoTransformer implements DtoTransformer<LabelEntity, LabelDto>{
+    private final AccountDtoTransformer accountDtoTransformer = new AccountDtoTransformer();
+
     @Override
     public LabelDto toDto(LabelEntity entity) {
         LabelDto dto = new LabelDto();
@@ -13,6 +15,7 @@ public class LabelDtoTransformer implements DtoTransformer<LabelEntity, LabelDto
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
         dto.setColor(entity.getColor());
+        dto.setAccountDto(accountDtoTransformer.toDto(entity.getAccount()));
         return dto;
     }
 

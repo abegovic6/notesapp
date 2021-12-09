@@ -4,8 +4,6 @@ import ba.academy.notes.dto.AccountDto;
 import ba.academy.notes.repository.entities.AccountEntity;
 
 public class AccountDtoTransformer implements DtoTransformer<AccountEntity, AccountDto>{
-    private final GroupsDtoTransformer groupsDtoTransformer = new GroupsDtoTransformer();
-    private final LabelDtoTransformer labelDtoTransformer = new LabelDtoTransformer();
 
     @Override
     public AccountDto toDto(AccountEntity entity) {
@@ -15,8 +13,6 @@ public class AccountDtoTransformer implements DtoTransformer<AccountEntity, Acco
         dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
-        dto.setGroupsDtoList(groupsDtoTransformer.toDtoList(entity.getGroups()));
-        dto.setLabelDtoList(labelDtoTransformer.toDtoList(entity.getLabels()));
         return dto;
     }
 
